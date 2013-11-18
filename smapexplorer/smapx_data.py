@@ -32,7 +32,8 @@ def get_smapx_data(starttime, endtime, unit, resampleto):
         krv = []
         for k in xrange(i, i+ival, 1):
             krv.append(f(k))
-        e = {"max":max(krv), "min":min(krv), "mean":np.mean(krv), "count": ival}
+        tm = i + ival/2.
+        e = {"max":max(krv), "min":min(krv), "mean":np.mean(krv), "count": ival, "mt": tm, "tw": ival/2}
         rv.append(e)
     return rv
     
