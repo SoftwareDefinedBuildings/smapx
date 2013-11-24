@@ -37,3 +37,9 @@ path {
   fill: none;
   stroke: black;
 }
+
+rect.pane {
+    cursor: move;
+    fill: none;
+    pointer-events: all;
+}
