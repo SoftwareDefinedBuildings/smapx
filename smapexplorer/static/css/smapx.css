@@ -45,3 +45,14 @@ rect.pane {
     fill: none;
     pointer-events: all;
 }
+
+rect.overlay {
+    /*cursor: move;*/
+    fill: none;
+    pointer-events: all;
+}
+
+.focus circle {
+    fill: none;
+    stroke: steelblue;
+}
