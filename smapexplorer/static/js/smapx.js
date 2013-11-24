@@ -32,6 +32,7 @@ $().ready(function()
         .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
        
+        //var x = d3.scale.linear()
         var x = d3.scale.linear()
             .domain([starttime, endtime])
             .range([0, width]);
@@ -57,12 +58,12 @@ $().ready(function()
             .interpolate("linear");
 
         var xAxis_graph = svgContainer.append("g")
-            .attr("class", "x_axis")
+            .attr("class", "x axis")
             .attr("transform", "translate(" + 0 + "," + height + ")")
             .call(xAxis);
 
         var yAxis_graph = svgContainer.append("g")
-            .attr("class", "y_axis")
+            .attr("class", "y axis")
             .call(yAxis);
 
         var lineGraph = svgContainer.append("path")
@@ -75,6 +76,7 @@ $().ready(function()
         var zoom = d3.behavior.zoom()
             .on("zoom", draw);
 
+        //to keep the graph from spilling over when dragging
         svgContainer.append("clipPath")
             .attr("id", "clip")
         .append("rect")
