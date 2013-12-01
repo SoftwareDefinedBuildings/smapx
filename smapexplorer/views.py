@@ -1,5 +1,6 @@
 from pyramid.view import view_config
 from smapx_data import *
+import time
 
 @view_config(route_name='index', renderer='index.mako')
 def v_index(request):
@@ -17,6 +18,8 @@ def v_data(request):
                             request.GET["endtime"],
                             request.GET["unit"],
                             request.GET["resampleto"])
+        # delay data serve
+        time.sleep(5)
         return rv
     except Exception as e:
         request.response.status = 400

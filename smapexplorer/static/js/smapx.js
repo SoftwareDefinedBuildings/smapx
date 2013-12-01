@@ -5,9 +5,11 @@ var starttime = 500,
     resampleto = 1000;
 
 
-
 $().ready(function()
 {
+    // create loading image
+    $("#chart").html("<img src='/static/gray_load.gif' >");
+
     $.getJSON("/data",{'starttime':starttime,'endtime':endtime,'unit':unit,'resampleto':resampleto},
     function(sample, status, xhr)
     {
@@ -30,7 +32,9 @@ $().ready(function()
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
         .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            // removing the loading image
+            .call(function(d) {$("#chart img").remove();});
        
         //var x = d3.scale.linear()
         var x = d3.scale.linear()
