@@ -1,4 +1,0 @@
-smapx
-=====
-
-SMAP eXplorer
