@@ -54,3 +54,25 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+SMAPExplorer.egg-info/SOURCES.txt
+
+SMAPExplorer.egg-info/SOURCES.txt
+
+*.pyc
+
+*.pyc
+
+smapexplorer/__init__.pyc
+
+smapexplorer/smapx_data.pyc
+
+*.pyc
+
+*.pyc
+
+smapexplorer/views.pyc
+
+smapexplorer/tests.pyc
+
+smapexplorer/tests.pyc
