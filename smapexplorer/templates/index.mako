@@ -68,7 +68,7 @@
 
       <div class="well">
         <div class="chart" id="chart">
-        
+          <!-- <button id="CSVButton"> Download CSV</button> -->
         </div>
       </div>
       

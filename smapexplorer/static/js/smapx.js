@@ -12,7 +12,8 @@ function draw(starttime, endtime, unit, resampleto, svgContainer) {
     // var currentRange = new Range(starttime, endtime, unit);
     $.getJSON("/data",{'starttime':starttime,'endtime':endtime,'unit':unit,'resampleto':resampleto}, 
         function(data) {
-            prepareD3(data, starttime, endtime, svgContainer);
+            console.log("draw shit");
+            prepareD3(data, starttime, endtime, unit, resampleto, svgContainer);
         }
     );
 }
@@ -51,9 +52,13 @@ function distance(range1, range2) {
     return Math.sqrt(Math.pow((range1.starttime - range2.starttime), 2) + Math.pow((range1.endtime - range2.endtime), 2));
 }
 
+function clicked(d, starttime, endtime) {
+    // var zoom = d3.behavior.zoom()
+    alert("hello!");
+    draw(width, height, starttime * 1.2, endtime * 0.8, d);        
+}
 
-
-function prepareD3(sample, starttime, endtime, svgContainer) {
+function prepareD3(sample, starttime, endtime, unit, resampleto, svgContainer) {
     console.log(sample);
     var margin = {top: 20, right: 20, bottom: 30, left: 50};
     var times = new Array(sample.length),
@@ -66,17 +71,17 @@ function prepareD3(sample, starttime, endtime, svgContainer) {
         mins[i] = sample[i].min;
         maxes[i] = sample[i].max;
     }
-
+    // $("svg").empty();
     var max = Math.max.apply(Math, maxes);
     min = Math.min.apply(Math, mins);
-    var svg = d3.select("body")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height);
-    svg.selectAll("circle")
-        .data(means)
-        .enter()
-        .append("circle")    
+    // var svg = d3.select("body")
+    //         .append("svg")
+    //         .attr("width", width)
+    //         .attr("height", height);
+    // svg.selectAll("circle")
+    //     .data(means)
+    //     .enter()
+    //     .append("circle")    
 
     var y = d3.scale.linear()
         .domain([min,max])
@@ -98,7 +103,6 @@ function prepareD3(sample, starttime, endtime, svgContainer) {
         .x(function(d) { return x(d.mt); })
         .y(function(d) { return y(d.mean); })
         .interpolate("linear");
-    console.log("tits = " + svgContainer);
     var xAxis_graph = svgContainer.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(" + 0 + "," + height + ")")
@@ -137,11 +141,7 @@ function prepareD3(sample, starttime, endtime, svgContainer) {
         focus.select("text").text((d.mt).toFixed(2) + ", " + (d.mean).toFixed(2));
     }
     svgContainer.call(function(d) {$("#chart img").remove();});
-    /* Begin zooming */
-    
-    var zoom = d3.behavior.zoom()
-        .scaleExtent([1,10]).x(x).y(y).on("zoom", draw(width, height, starttime * 1.2, endtime * 0.8, svgContainer));        
-      
+    /* Begin zooming */  
          // * not sure if this stuff is in the right direction but attempt to keep it from panning
          // * offscreen
          // *
@@ -178,7 +178,16 @@ function prepareD3(sample, starttime, endtime, svgContainer) {
         // .call(zoom);
 
     // zoom.x(x);
-    svgContainer.on("click", clicked(starttime, endtime));
+    
+    svgContainer.on("dblclick", function() {
+        alert(starttime);
+        $("#chart").children(":first").empty();
+        draw(starttime * 1.2, endtime * 0.8, unit, resampleto, svgContainer);  
+    });
+    // svgContainer.on("dblclick", function() {
+    //     alert("nice!");
+    //     draw(starttime * 0.8, endtime * 1.2, unit, resampleto, svgContainer);  
+    // });
 
     svgContainer.select("g.x.axis").call(xAxis);
     svgContainer.select("g.y.axis").call(yAxis);
@@ -194,10 +203,7 @@ function prepareD3(sample, starttime, endtime, svgContainer) {
         //     svgContainer.select("path.line").attr("d",line);
         // }
 }
-function clicked(d, starttime, endtime) {
-    // var zoom = d3.behavior.zoom()
-    draw(width, height, starttime * 1.2, endtime * 0.8, d);        
-}
+
 
 var createContainer = function(){
     var margin = {top: 20, right: 20, bottom: 30, left: 50},
@@ -215,7 +221,6 @@ var createContainer = function(){
 
 $().ready(function()
 {
-    
     // create loading image
     $("#chart").html("<img src='/static/gray_load.gif' >");
     var starttime = 500,
